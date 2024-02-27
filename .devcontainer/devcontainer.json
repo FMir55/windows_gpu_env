@@ -1,0 +1,35 @@
+{
+    "name": "windows_gpu_env",
+    "build": { 
+        "context": "..",
+        "dockerfile": "Dockerfile"
+    },
+
+    "customizations":{
+        "vscode": {
+            // Set *default* container specific settings.json values on container create.
+            "settings": { 
+                "python.defaultInterpreterPath": "/bin/python3",
+                "editor.formatOnSave": true,
+                "editor.defaultFormatter": "ms-python.black-formatter"
+            },
+            "extensions": [
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "ms-toolsai.jupyter",
+                "mhutchie.git-graph"]
+        }
+    },
+
+    "workspaceFolder": "/home/app/",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/home/app/,type=bind,consistency=cached",
+
+    "runArgs": [ "--gpus", "all"],
+    "forwardPorts": [3306],
+    // "appPort": ["3306:3306"]
+    // "remoteUser": "hankli",
+
+    "postCreateCommand": [
+        "nvidia-smi"
+      ]
+}

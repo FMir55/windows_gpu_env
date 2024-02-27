@@ -1,0 +1,11 @@
+FROM nvidia/cuda:12.3.1-devel-ubuntu22.04
+
+# installation
+RUN apt-get update
+RUN apt-get install -y git python3-pip sudo
+RUN pip3 install --upgrade pip
+
+COPY pyproject.toml poetry.lock ./
+RUN pip3 install poetry poetry-plugin-export
+RUN poetry export -f requirements.txt -o requirements.txt --dev
+RUN python3 -m pip install -r requirements.txt
